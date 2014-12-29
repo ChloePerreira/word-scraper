@@ -5,14 +5,16 @@ class WordBuilder
 
   def initialize(word_array)
     @words = WordBuilder.new(word_array)
-    @errors = []
+    @bad_lookup_errors = []
+    @word_mismatch_errors = []
+    @bad_pronounce_errors = []
   end
  
   def error?(driver, word)
     begin 
       driver.find_element(:class, 'spellpron')
     rescue Selenium::WebDriver::Error::NoSuchElementError
-      @errors.push(word)
+      @bad_lookup_errors.push(word)
       false
     end
   end
@@ -21,7 +23,7 @@ class WordBuilder
     if name(driver).downcase == word.downcase
       return true
     else
-      @errors.push(word)
+      @word_mismatch_errors.push(word)
       return false
     end
   end
@@ -46,14 +48,31 @@ class WordBuilder
   def rank
   end
 
-  def pronunciation(driver)
+  def pronunciation(driver) # can return false if there's an error
     element = driver.find_element(:class, 'spellpron')
     pronunciation = element.txt
     if pronunciation ~= /\d/
       # deal with some shit because there're numbers in it
+      pronunciation.gsub!(/\d.+/, '') # deletes numbers and everything after
+      array = pronunciation.split(' ')
+      if array[-1] == "for"
+        array.pop
+        pronunciation = array.join
+        clean_up(pronunciation)
+      else # return false of something goes wrong
+        false # put into a bin 
+      end
     else
-      pronunciation.gsub!(/\s+/, "") # remove spaces
-      pronunciation.gsub!(/\[|\]/, "") # remove []
-      syllable_array = pronunciation.split('-') 
+      clean_up(pronunciation)
+    end
   end
+
+  def clean_up(pronunciation)
+    pronunciation.gsub!(/\s+/, "") # remove spaces
+    pronunciation.gsub!(/\[|\]/, "") # remove []
+    syllable_array = pronunciation.split('-')
+    syllable_array
+  end
+
+  
 end

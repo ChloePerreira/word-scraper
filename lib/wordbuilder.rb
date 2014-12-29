@@ -5,8 +5,27 @@ class WordBuilder
 
   def initialize(word_array)
     @words = WordBuilder.new(word_array)
+    @errors = []
   end
  
+  def error?(driver, word)
+    begin 
+      driver.find_element(:class, 'spellpron')
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      @errors.push(word)
+      false
+    end
+  end
+
+  def match?(driver, word)
+    if name(driver) == word
+      return true
+    else
+      @errors.push(word)
+      return false
+    end
+  end
+
   def create
   end
 
@@ -16,6 +35,7 @@ class WordBuilder
   end
 
   def syllable_count
+
   end
 
   def syllable_emphasis

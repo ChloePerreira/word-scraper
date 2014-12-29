@@ -10,7 +10,9 @@ class WordBuilder
   def create
   end
 
-  def name
+  def name(driver)
+    element = driver.find_element(:class, 'js-headword')
+    element.txt
   end
 
   def syllable_count

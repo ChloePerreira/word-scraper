@@ -52,9 +52,8 @@ class WordBuilder
     if pronunciation ~= /\d/
       # deal with some shit because there're numbers in it
     else
-      # remove spaces
-      # drop brackets
-      # split into an array based on -
-      # return array  
+      pronunciation.gsub!(/\s+/, "") # remove spaces
+      pronunciation.gsub!(/\[|\]/, "") # remove []
+      syllable_array = pronunciation.split('-') 
   end
 end

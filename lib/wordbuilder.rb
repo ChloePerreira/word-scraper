@@ -18,7 +18,7 @@ class WordBuilder
   end
 
   def match?(driver, word)
-    if name(driver) == word
+    if name(driver).downcase == word.downcase
       return true
     else
       @errors.push(word)
@@ -27,6 +27,8 @@ class WordBuilder
   end
 
   def create
+    # check for errors
+    # check for match
   end
 
   def name(driver)
@@ -44,6 +46,15 @@ class WordBuilder
   def rank
   end
 
-  def pronunciation
+  def pronunciation(driver)
+    element = driver.find_element(:class, 'spellpron')
+    pronunciation = element.txt
+    if pronunciation ~= /\d/
+      # deal with some shit because there're numbers in it
+    else
+      # remove spaces
+      # drop brackets
+      # split into an array based on -
+      # return array  
   end
 end

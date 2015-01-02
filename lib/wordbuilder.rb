@@ -53,6 +53,7 @@ class WordBuilder
   def create
     # check for errors
     # check for match
+    # set as instance var for syllable_count
   end
 
   def name
@@ -61,13 +62,15 @@ class WordBuilder
   end
 
   def syllable_count
-
+    # count syllables in database
   end
 
   def syllable_emphasis
+    # find the first thing contained within “dbox-bold\”>HERE<
   end 
 
   def rank
+    # find Google rank?
   end
 
   def pronunciation(word) # can return false if there's an error

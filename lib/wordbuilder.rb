@@ -30,9 +30,16 @@ class WordBuilder
 
   def cycle
     # cycle through your word array and navigate from page to page and do stuff
+    test = []
     while @words.size > 0
       # navigate to the page with the words
+        word = @words.pop
+        navigate(word)
       # is there an error? 
+        if error?(word) # return true if no error?
+          test.push(word)
+        end
+    end
         # yes, pop word and be done
       # no, continue
       # does the word match the word on page?

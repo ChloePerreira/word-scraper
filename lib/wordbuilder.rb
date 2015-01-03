@@ -2,7 +2,7 @@ class WordBuilder
   require 'selenium-webdriver'
 
   def initialize(word_array, url_string)
-    @words = WordBuilder.new(word_array)
+    @words = word_array
     @url = url_string
     @bad_lookup_errors = []
     @word_mismatch_errors = []
@@ -40,6 +40,7 @@ class WordBuilder
           test.push(word)
         end
     end
+    return test
         # yes, pop word and be done
       # no, continue
       # does the word match the word on page?
@@ -95,7 +96,7 @@ class WordBuilder
   def pronunciation(word) # can return false if there's an error
     element = @driver.find_element(:class, 'spellpron')
     pronunciation = element.txt
-    if pronunciation ~= /\d/
+    if pronunciation.match(/\d/)
       # deal with some shit because there're numbers in it
       pronunciation.gsub!(/\d.+/, '') # deletes numbers and everything after
       array = pronunciation.split(' ')

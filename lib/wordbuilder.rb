@@ -36,20 +36,15 @@ class WordBuilder
         word = @words.pop
         navigate(word)
       # is there an error? 
-        if error?(word) # return true if no error?
-          test.push(word)
+        if error?(word) # passes if no error
+          if match?(word) 
+            if pronunciation(word)
+              test.push(pronunciation(word))
+            end
+          end 
         end
     end
     return test
-        # yes, pop word and be done
-      # no, continue
-      # does the word match the word on page?
-        # no, pop the word and be done
-      # yes, continue
-      # take pronunciation
-        # does pronunciation return true? create the word
-        # if false, pop the word and be done 
-
   end
 
   def error?(word)
@@ -62,7 +57,7 @@ class WordBuilder
   end
 
   def match?(word)
-    if name(@driver).downcase == word.downcase
+    if name.downcase == word.downcase
       return true
     else
       @word_mismatch_errors.push(word)
@@ -78,7 +73,7 @@ class WordBuilder
 
   def name
     element = @driver.find_element(:class, 'js-headword')
-    element.txt
+    element.text
   end
 
   def syllable_count
@@ -95,7 +90,7 @@ class WordBuilder
 
   def pronunciation(word) # can return false if there's an error
     element = @driver.find_element(:class, 'spellpron')
-    pronunciation = element.txt
+    pronunciation = element.text
     if pronunciation.match(/\d/)
       # deal with some shit because there're numbers in it
       pronunciation.gsub!(/\d.+/, '') # deletes numbers and everything after

@@ -30,6 +30,18 @@ class WordBuilder
 
   def cycle
     # cycle through your word array and navigate from page to page and do stuff
+    while @words.size > 0
+      # navigate to the page with the words
+      # is there an error? 
+        # yes, pop word and be done
+      # no, continue
+      # does the word match the word on page?
+        # no, pop the word and be done
+      # yes, continue
+      # take pronunciation
+        # does pronunciation return true? create the word
+        # if false, pop the word and be done 
+
   end
 
   def error?(word)

@@ -40,6 +40,7 @@ class WordBuilder
           if match?(word) 
             if pronunciation(word)
               test.push(pronunciation(word))
+              Word.create(pronunciation: pronuciation(word))
             end
           end 
         end
